@@ -1,28 +1,30 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import * as d3 from 'd3';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: []
+        };
+    }
+    componentDidMount() {
+        // Load data
+        d3.csv("test.csv").then((d) => {
+            this.setState({ data: d });
+        });
+    }
+    render() {
+        console.log(this.state.data)
+        return (
+            <div>
+                {this.state.data.map((d, i) => {
+                    return <p key={"person-" + i}>My name is {d.name} and I like {d.interest}</p>
+                })}
+            </div>
+        );
+    }
 }
 
 export default App;
